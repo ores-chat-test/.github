@@ -1,6 +1,7 @@
 name: ci
 
 on:
+  workflow_dispatch:
   pull_request:
   push:
     branches: [main]
@@ -13,7 +14,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Validate JSON Schema syntax
         run: jq -e '."$schema" == "https://json-schema.org/draft/2020-12/schema"' schemas/test-suite.schema.json
       - name: Run validator self-test

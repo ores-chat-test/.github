@@ -1,0 +1,17 @@
+name: Validate ORES Chat test suite
+description: Enforce the shared contract for ores-chat-test repositories
+
+inputs:
+  suite-path:
+    description: Repository-relative path to the suite declaration
+    required: false
+    default: suite.json
+
+runs:
+  using: composite
+  steps:
+    - name: Validate suite declaration
+      shell: bash
+      env:
+        ORES_CHAT_SUITE_PATH: ${{ inputs.suite-path }}
+      run: python3 "$GITHUB_ACTION_PATH/scripts/validate_suite.py" "$ORES_CHAT_SUITE_PATH"

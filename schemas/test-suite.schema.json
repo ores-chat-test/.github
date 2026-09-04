@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ores-chat-test/.github/schemas/test-suite.schema.json",
+  "title": "ORES Chat executable test-suite declaration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "suite",
+    "status",
+    "surfaces",
+    "environments",
+    "assertions",
+    "owners"
+  ],
+  "properties": {
+    "version": { "const": 1 },
+    "suite": { "type": "string", "pattern": "^[a-z0-9][a-z0-9.-]{2,99}$" },
+    "status": { "enum": ["contract-only", "live"] },
+    "surfaces": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": ["public", "customer", "admin", "internal", "packaging", "recovery"]
+      }
+    },
+    "environments": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": { "enum": ["main-org", "test-org"] },
+      "allOf": [
+        { "contains": { "const": "main-org" } },
+        { "contains": { "const": "test-org" } }
+      ]
+    },
+    "assertions": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "description", "evidence"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]{2,79}$" },
+          "description": { "type": "string", "minLength": 12, "maxLength": 300 },
+          "evidence": { "enum": ["contract", "local", "hosted", "live"] }
+        }
+      }
+    },
+    "owners": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,38}$" }
+    }
+  }
+}

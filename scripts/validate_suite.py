@@ -125,7 +125,7 @@ def self_test() -> None:
     with tempfile.TemporaryDirectory() as directory:
         path = Path(directory) / "suite.json"
         path.write_text(json.dumps(valid), encoding="utf-8")
-        validate_path(path)
+        validate(json.loads(path.read_text(encoding="utf-8")))
 
 
 def main() -> int:
